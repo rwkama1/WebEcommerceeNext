@@ -1,7 +1,7 @@
 import React,{ Component } from "react";
-import APIHome from "../../model/api/home/home";
-
-
+import APIHome from "../../model/api/home";
+import { Navbar } from "../header/Navbar";
+import Link from 'next/link'
 export class Home extends Component
 {
   constructor() {
@@ -21,7 +21,7 @@ export class Home extends Component
     return(
       <>      
       <header className="section-header">
-      <this.Navbar/>
+      <Navbar setlistarticles={this.getArticlesbyExpression}/>
        </header>
        <header className="border-bottom mb-4 pb-3">
        <this.HeaderCardArticles/>
@@ -31,72 +31,10 @@ export class Home extends Component
       </>
     )
   }
-  FilterArticlesbyCategory=(e)=>
-  {
-  const valueselect=String(e.target.value); 
-    if(valueselect!="All")
-    {
-    APIHome.getInstance().filterArticlebyCategory(valueselect).then(getarticles =>
-      { this.setState(
-        {
-         listarticles:getarticles,
-         
-        }
-        );}
-      ) 
-    }
-    else{
-      this.listArticles();
-    }
-   
-  }
-  Navbar=()=>
-  {
-	return(
-	<> 
   
-
-        <section className="header-main border-bottom">
-          <div className="container">
-            <div className="row align-items-center">
-              <div className="col-lg-2 col-4">
-                <a className="brand-wrap">
-                  <img className="logo" src="images/logo.jpg" />
-                </a> {/* brand-wrap.// */}
-              </div>
-              <div className="col-lg-6 col-sm-12">
-                <form action="#" className="search">
-                  <div className="input-group w-100">
-                    <input type="text" className="form-control" placeholder="Search Article by Name" />
-                   
-                  </div>
-                </form> {/* search-wrap .end// */}
-              </div> {/* col.// */}
-              <div className="col-lg-4 col-sm-6 col-12">
-                <div className="widgets-wrap float-md-right">
-                  <div className="widget-header  mr-3">
-                    <a href="#" className="icon icon-sm rounded-circle border"><i className="fa fa-shopping-cart"></i></a>
-                    <span className="badge badge-pill badge-danger notify">0</span>
-                  </div>
-                  <div className="widget-header icontext">
-                    <a href="#" className="icon icon-sm rounded-circle border"><i className="fa fa-user" /></a>
-                    <div className="text">
-                      <span className="text-muted">Welcome!</span>
-                      <div> 
-                        <a href="#">Sign in</a> |  
-                        <a href="#"> Register</a>
-                      </div>
-                    </div>
-                  </div>
-                </div> {/* widgets-wrap.// */}
-              </div> {/* col.// */}
-            </div> {/* row.// */}
-          </div> {/* container.// */}
-        </section> {/* header-main .// */}
-    
-	 </>
-	)
-  }
+   
+  
+  
   HeaderCardArticles=()=>
   {
     return(
@@ -154,7 +92,10 @@ export class Home extends Component
                   <span className="price">USD {art._price}</span>
                 </div> {/* price-wrap.// */}
               </div>
-              <a href="#" className="btn btn-block btn-primary">See Article </a>	
+              <Link href="/add_product_to_cart/productdetail">
+              <a className="btn btn-block btn-primary">See Article </a>	
+              </Link>
+           
             </figcaption>
           </figure>
         </div> 
@@ -166,6 +107,44 @@ export class Home extends Component
      
       </>    	
     )
+  }
+  //********************************************** */
+  FilterArticlesbyCategory=(e)=>
+  {
+  const valueselect=String(e.target.value); 
+    if(valueselect!="All")
+    {
+    APIHome.getInstance().filterArticlebyCategory(valueselect).then(getarticles =>
+      { this.setState(
+        {
+         listarticles:getarticles,
+         
+        }
+        );}
+      ) 
+    }
+    else{
+      this.listArticles();
+    }
+  }
+  getArticlesbyExpression=(e)=>
+  {
+  const value=e.target.value; 
+  if(value!="")
+  {
+    APIHome.getInstance().getArticlesExpression(value).then(getarticles =>
+      { this.setState(
+        {
+         listarticles:getarticles,
+         
+        }
+        );}
+      ) 
+    }
+    else{
+      this.listArticles();
+    }
+   
   }
   listArticles=()=>
   {

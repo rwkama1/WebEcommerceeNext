@@ -1,20 +1,20 @@
 import React,{ Component } from "react";
-
-import Head from 'next/head';
+import Head from "next/head";
 import { Home } from "./home/home";
 
-export default class Index extends Component
+export  class HeadComponent extends Component
 {
   render()
   {
     return(
-      <> 
+      
   <Head>
   <meta charset="utf-8"/>
 
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
+<meta name="description" content="NextJS e-commercee order article admin customer" />
 
-<title>Website title - bootstrap html template</title>
+<title>Website E-Commerce</title>
 
 <link href="icon/commerceicon.ico" rel="shortcut icon" type="image/x-icon"/>
 
@@ -45,8 +45,21 @@ export default class Index extends Component
 
 </script>
  </Head>
- <Home/>
-   </>
+
+   
+    )
+  }
+  
+}
+export default class Index extends Component
+{
+  render()
+  {
+    return(
+      <> 
+     <HeadComponent/>
+     <Home/>
+     </>
     )
   }
   
