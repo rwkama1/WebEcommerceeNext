@@ -1,7 +1,8 @@
 import React,{ Component } from "react";
 import APIHome from "../../model/api/home";
-import { Navbar } from "../header/Navbar";
-import Link from 'next/link'
+import Link from 'next/link';
+import  Router  from "next/router";
+import { HeadComponent } from "../../components/head";
 export class Home extends Component
 {
   constructor() {
@@ -20,14 +21,13 @@ export class Home extends Component
   {
     return(
       <>      
-      <header className="section-header">
-      <Navbar setlistarticles={this.getArticlesbyExpression}/>
-       </header>
+      <HeadComponent filterarticles={this.getArticlesbyExpression}>
        <header className="border-bottom mb-4 pb-3">
        <this.HeaderCardArticles/>
        </header>
        <this.CardArticles/>
-    
+     </HeadComponent>
+      
       </>
     )
   }
@@ -92,9 +92,9 @@ export class Home extends Component
                   <span className="price">USD {art._price}</span>
                 </div> {/* price-wrap.// */}
               </div>
-              <Link href="/add_product_to_cart/productdetail">
-              <a className="btn btn-block btn-primary">See Article </a>	
-              </Link>
+              {/* <Link href="/add_product_to_cart/productdetail"> */}
+              <button onClick={()=>this.clickseeproduct(art._barcode)} className="btn btn-block btn-primary">See Article </button>	
+              {/* </Link> */}
            
             </figcaption>
           </figure>
@@ -108,7 +108,12 @@ export class Home extends Component
       </>    	
     )
   }
-  //********************************************** */
+  //********************************************************************* */
+  clickseeproduct=(barcode)=>
+  {
+      Router.push("/add_product_to_cart/article/[barcode]","/add_product_to_cart/article/"+barcode)
+      
+  }
   FilterArticlesbyCategory=(e)=>
   {
   const valueselect=String(e.target.value); 

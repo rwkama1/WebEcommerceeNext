@@ -53,24 +53,7 @@ export default class APIHome
           return result;
         
       }     
-      getArticle=async(barcode)=>
-      {
-        try
-        {
-        const url2=this.url+"article?pbarcode="+barcode;
-         var requestOptions = {
-            method: 'GET',
-            redirect: 'follow'
-          };
-         const response =await fetch(url2, requestOptions);
-         const result=await response.json();
-         return result;
-        }
-         catch(e)
-        {
-          console.log(e.message);
-        }
-      }
+    
       filterArticlebyCategory=async(name)=>
       {
        

@@ -2,6 +2,7 @@
   "/_app": "pages/_app.js",
   "/_error": "pages/_error.js",
   "/_document": "pages/_document.js",
-  "/": "pages/index.js",
-  "/add_product_to_cart/productdetail": "pages/add_product_to_cart/productdetail.js"
+  "/customer/sign_in": "pages/customer/sign_in.js",
+  "/add_product_to_cart/article/[barcode]": "pages/add_product_to_cart/article/[barcode].js",
+  "/": "pages/index.js"
 }
