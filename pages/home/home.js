@@ -3,7 +3,7 @@ import APIHome from "../../model/api/home";
 import Link from 'next/link';
 import  Router  from "next/router";
 import { HeadComponent } from "../../components/head";
-export class Home extends Component
+export default class Home extends Component
 {
   constructor() {
     super();
