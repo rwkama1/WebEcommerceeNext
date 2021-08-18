@@ -20,7 +20,7 @@ export  class HeadComponent extends Component
 
 {/* <!-- jQuery --> */}
 <script src="js/jquery-2.0.0.min.js" type="text/javascript"></script>
-
+<script data-ad-client="ca-pub-7779192336608203" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
 {/* <!-- Bootstrap4 files--> */}
 <script src="js/bootstrap.bundle.min.js" type="text/javascript"></script>
 <link href="css/bootstrap.css" rel="stylesheet" type="text/css"/>
