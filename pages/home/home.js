@@ -22,9 +22,10 @@ export default class Home extends Component
     return(
       <>      
       <HeadComponent filterarticles={this.getArticlesbyExpression}>
-       <header className="border-bottom mb-4 pb-3">
+     
        <this.HeaderCardArticles/>
-       </header>
+        <br></br>
+        
        <this.CardArticles/>
      </HeadComponent>
       
@@ -39,9 +40,10 @@ export default class Home extends Component
   {
     return(
       <> 
-       <br/>
-        <div className="form-inline">
     
+
+        <div className="form-inline">
+        &nbsp; &nbsp;&nbsp; &nbsp;  &nbsp; &nbsp;&nbsp; &nbsp;  
         <select 
        onChange={this.FilterArticlesbyCategory}
         className="mr-2 form-control"
@@ -62,8 +64,8 @@ export default class Home extends Component
           }
         </select>
         <br/>
-        <button type="button" onClick={this.orderArticlebyPrice} className="btn btn-light">Sort items by price</button>
-        <button type="button" onClick={this.orderArticlebyCategory} className="btn btn-light">Sort items by category</button>
+        <button type="button" onClick={this.orderArticlebyPrice} className="btn btn-link">Sort items by price</button>
+        <button type="button" onClick={this.orderArticlebyCategory} className="btn btn-link">Sort items by category</button>
       </div>
       </>
       )
@@ -73,8 +75,11 @@ export default class Home extends Component
    
     return(
       <> 
+      
         <div className="row">
-        {              
+       
+        {           
+         
       this.state.listarticles.map(
         art=>
         {
@@ -93,7 +98,7 @@ export default class Home extends Component
                 </div> {/* price-wrap.// */}
               </div>
               {/* <Link href="/add_product_to_cart/productdetail"> */}
-              <button onClick={()=>this.clickseeproduct(art._barcode)} className="btn btn-block btn-primary">See Article </button>	
+              <button onClick={()=>this.clickseeproduct(art._barcode)} className="btn btn-light">See Article </button>	
               {/* </Link> */}
            
             </figcaption>

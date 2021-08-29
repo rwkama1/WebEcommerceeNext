@@ -1,63 +1,81 @@
 import React,{ Component } from "react";
 
 import Link from "next/link"
+import APICustomer from "../model/api/customer";
 
 export class Navbar extends Component
 {
-
+     
      render()
      {
       
        return(
-    	<> 
-        <section className="header-main border-bottom">
-          <div className="container">
-            <div className="row align-items-center">
-              <div className="col-lg-2 col-4">
-              <Link href="/">
-                <a className="brand-wrap">
-                  <img className="logo" src="https://res.cloudinary.com/dk0nnbox0/image/upload/v1629011368/logo_cdpbqf.jpg"/>
-                </a>
-              </Link>
-              </div>
-              <div className="col-lg-6 col-sm-12">
-               
-                  <div className="input-group w-100">
-                    <input type="text" 
-                    className="form-control" 
-                   
-                    onKeyPress={this.props.filterarticles} 
-                    placeholder="Search Article by Name" />
-                   
-                  </div>
-                
-              </div> 
-              <div className="col-lg-4 col-sm-6 col-12">
-                <div className="widgets-wrap float-md-right">
-                  <div className="widget-header  mr-3">
-                    <a href="#" className="icon icon-sm rounded-circle border"><i className="fa fa-shopping-cart"></i></a>
-                    <span className="badge badge-pill badge-danger notify">0</span>
-                  </div>
-                  <div className="widget-header icontext">
-                    <a href="#" className="icon icon-sm rounded-circle border"><i className="fa fa-user" /></a>
-                    <div className="text">
-                      <span className="text-muted">Welcome!</span>
-                      <div> 
-                      <Link href="/customer/sign_in">
-                        <a> Sign in </a>
-                      </Link>
-                        
-                        {/* <a href="#"> Register</a> */}
-                      </div>
-                    </div>
-                  </div>
-                </div> {/* widgets-wrap.// */}
-              </div> {/* col.// */}
-            </div> {/* row.// */}
-          </div> {/* container.// */}
-        </section> {/* header-main .// */}
     
-	 </>
+      <div className="skin-light">
+      <header>
+      <nav className="navbar navbar-expand-md navbar-light fixed-top">
+     
+        
+        <Link href="/">
+        <a className="navbar-brand">
+          <img src="https://res.cloudinary.com/dk0nnbox0/image/upload/v1629011368/logo_cdpbqf.jpg"  alt="mdb logo" />
+        </a>
+        </Link>
+       
+        <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#basicExampleNav" aria-controls="basicExampleNav" aria-expanded="false" aria-label="Toggle navigation">
+          <span className="navbar-toggler-icon" />
+        </button>
+       
+    
+        <div className="collapse navbar-collapse" id="basicExampleNav">
+        
+          <ul className="navbar-nav ml-auto">
+            <li className="nav-item">
+            <Link href="/add_product_to_cart/cart">
+              <a className="nav-link navbar-link-2 waves-effect">
+                <span className="badge badge-pill red">1</span>
+                <i className="fas fa-shopping-cart pl-0" />
+              </a>
+             </Link>
+            </li>
+            
+             
+           
+           
+            <li className="nav-item">
+            <Link href="/customer/detail_customer">
+              <a className="nav-link waves-effect">
+              <i className="fas fa-user" />
+              </a>
+            </Link>
+            </li>
+           
+            <li className="nav-item">
+            <Link href="/customer/sign_in">
+              <a className="nav-link waves-effect" >
+                Sign in
+              </a>
+            </Link>
+            </li>
+            <li className="nav-item pl-2 mb-2 mb-md-0">
+            <Link href="/customer/register">
+              <a  type="button" className="btn btn-outline-info btn-md btn-rounded btn-navbar waves-effect waves-light">Sign up</a>
+             </Link>
+            </li>
+          </ul>
+        </div>
+  
+      </nav>
+    
+      </header>
+ 
+     <main className="mt-5 pt-5">
+    <div className="container-fluid pt-1">
+      {this.props.children}
+    </div>
+    </main>
+    </div>
+	 
        )
      }
 }

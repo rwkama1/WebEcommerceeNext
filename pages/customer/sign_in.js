@@ -1,9 +1,48 @@
+import Link from "next/link";
+import Router from "next/router";
 import React,{ Component } from "react";
 import { HeadComponent } from "../../components/head";
+import APICustomer from "../../model/api/customer";
 
 export default class Sign_in extends Component
 {
 
+      constructor() {
+        super();
+        this.state = {
+        password:"",
+        username:"",  
+           }
+        }
+        componentDidMount()
+        {}
+      onChangeText=(name,event)=>
+      {
+        this.setState(
+            {
+            ...this.state,[name]:event.target.value
+            }
+        )
+      }
+      login=(event)=>
+      {    
+        event.preventDefault();    
+       const {username,password}=this.state;
+        APICustomer.getInstance().login(username,password).then(login => {
+                if(login.bool===true)
+                {
+                  Router.push(
+                    {
+                    pathname:"/customer/detail_customer"
+                  }
+                    );
+                }
+                if(login.bool===false)
+                {
+                   alert(login.error);
+                }
+           }); 
+     }  
      render()
      {
        return(
@@ -27,35 +66,58 @@ export default class Sign_in extends Component
           <h1 className="mb-0">Sign in</h1>
     </div>
     </header>
-        
-   
-       
-    
-      <main>
+
+    <main>
         <div className="container">
           {/*Grid row*/}
           <div className="row d-flex justify-content-center">
             {/*Grid column*/}
-            <div className="col-md-6">
+      <div className="col-md-4">
               {/*Section: Content*/}
-              <section className="mb-5">
-                <form >
-                  <div className="md-form md-outline">
-                    <input type="text" placeholder="Your Username"  className="form-control" />
-                  </div>
-                  <div className="md-form md-outline">
-                    <input type="password" placeholder="Your Password" className="form-control" />
-                   
-                  </div>
-                </form>
-                
-                <div className="text-center pb-2">
-                  <button type="submit" className="btn btn-primary mb-4">Sign in</button>
-                  {/* <p>Not a member? <a href>Register</a></p> */}
+              <div className="row">
+    &nbsp; &nbsp;  &nbsp; &nbsp;  &nbsp; &nbsp;  &nbsp; &nbsp;  &nbsp; &nbsp;
+		<div className="col-md-10">
+     
+			<form role="form" onSubmit={this.login}>
+      <div className="col-md-16" >
+        
+			<div className="row">
+          <label>
+				User Name
+					</label>
+					<input type="text"  
+           onChange={(value)=>this.onChangeText('username',value)}
+           value={this.state.username}
+          className="form-control"  />
+       </div>
+     
+     <br></br>
+      <div className="row">
+          <label>
+			Password
+					</label>
+					<input type="password"
+           onChange={(value)=>this.onChangeText('password',value)}
+           value={this.state.password}
+           className="form-control"  />
+          </div>
+      </div>
+     
+  <br />
+      <div className="text-center pb-2">
+             <input type="submit" className="btn btn-primary mb-4" value="Login"/>
+                 <br />
+                  Not a member? &nbsp; &nbsp;   
+                   <Link href="/customer/register">
+                        <a>Register</a>
+                  </Link>
                
-                </div>
-              </section>
-              {/*Section: Content*/}
+         </div>
+         </form>
+		</div>
+		
+	</div>
+                  {/*Section: Content*/}
             </div>
             {/*Grid column*/}
           </div>
