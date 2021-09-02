@@ -1,10 +1,80 @@
+import Router from "next/router";
 import React,{ Component } from "react";
 import { HeadComponent } from "../../components/head";
+import APIProductCart from "../../model/api/product_to_cart";
 
 export default class Cart extends Component
 {
+  constructor() {
+    super();
+    this.state = {
+      ordercart:{},
+      listdetailorder:[]
+    }
+    
+    }
+  
+ async componentDidMount()
+  {
+  try{
 
-     render()
+  
+    // var loginuser = sessionStorage.getItem('loginuser');
+    // if(!loginuser)
+    // {
+    //   alert("Please log in to access this page");
+      
+    //   Router.push(
+    //     {
+    //     pathname:"/customer/sign_in"
+    //   }
+    //   )
+    //   return;
+     
+    // }
+    const orderdetail=await APIProductCart.getInstance().getorderinprogress();
+   
+    this.setState(
+      {
+        ordercart:orderdetail,
+        listdetailorder:orderdetail._listOrderDetails
+      }
+    )
+    console.log(this.state.ordercart)
+  }
+  catch(e)
+  {
+       Router.push(
+        {
+        pathname:"/"
+      }
+      )
+    alert(e.message)
+  }
+  }
+ removeitemonorder=async(barcode)=>
+ {
+  try
+  {
+ 
+  const removeitemonor=await APIProductCart.getInstance().removeitemonorder(barcode);
+  const orderdetail=await APIProductCart.getInstance().getorderinprogress();
+   
+    this.setState(
+      {
+        ordercart:orderdetail,
+        listdetailorder:orderdetail._listOrderDetails
+      }
+    )
+  console.log(removeitemonor);
+  alert(removeitemonor);
+   }
+   catch(e)
+   {
+     alert(e.message);
+   }
+ }
+  render()
      {
        return(
     	<> 
@@ -17,7 +87,7 @@ export default class Cart extends Component
        )
      }
     
-     cart=()=>
+  cart=()=>
      {
        return(
          <>
@@ -51,35 +121,44 @@ export default class Cart extends Component
                   <th />
                 </tr>
               </thead>
-              {/* /.Table head */}
-              {/* Table body */}
+           
               <tbody>
-                {/* First row */}
-                <tr>
+           {
+              this.state.listdetailorder.map(
+                (detailorder,i)=>
+                {
+                  return(
+            
+             
+                <tr key={i}>
                   <th scope="row">
-                    <img src="https://mdbootstrap.com/img/Photos/Horizontal/E-commerce/Products/13.jpg" alt="" className="img-fluid z-depth-0" />
+                    <img src={detailorder._article._img}  className="img-fluid z-depth-0" />
                   </th>
                   <td>
                     <h5 className="mt-3">
-                      <strong>Monitor Led 19.5' Hd Kolke Entradas Hdmi Y Vga Loi</strong>
+                      <strong>{detailorder._article._name}</strong>
                     </h5>
                  
                   </td>
-                  <td>White</td>
+                  <td>{detailorder._article._category._name}</td>
                   <td />
-                  <td>$800</td>
+                  <td>${detailorder._article._price}</td>
                   <td>
-                     2
+                  {detailorder._quantity}
                   </td>
                   <td >
-                  <strong>$800</strong>  
+                  <strong>${detailorder._article._price * detailorder._quantity}</strong>  
                   </td>
                   <td>
-                    <button type="button" className="btn btn-sm btn-primary" data-toggle="tooltip" data-placement="top" title="Remove item">X
+                    <button type="button" onClick={() => this.removeitemonorder(detailorder._article._barcode)} className="btn btn-sm btn-primary" data-toggle="tooltip" data-placement="top" title="Remove item">X
                     </button>
                   </td>
                 </tr>
-               
+             
+                  )
+                }
+             )     
+           }
                 <tr>
                   <td colSpan={3} />
                   <td colSpan={3} />
@@ -94,6 +173,8 @@ export default class Cart extends Component
                     </h4>
                   </td>
                 </tr>
+              
+          
                 {/* Fourth row */}
               </tbody>
               {/* /.Table body */}
@@ -115,7 +196,7 @@ export default class Cart extends Component
             <button type="button" className="btn btn-light">
                 Close Order
               </button>
-              <button type="button" disabled={true} className="btn btn-light-blue">
+              <button type="button" disabled={true} className="btn btn-primary">
                 Send Order
               </button>
          

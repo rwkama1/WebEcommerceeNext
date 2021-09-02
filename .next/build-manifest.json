@@ -34,20 +34,10 @@
       "static/chunks/main.js",
       "static/chunks/pages/add_product_to_cart/cart.js"
     ],
-    "/customer/detail_customer": [
-      "static/chunks/webpack.js",
-      "static/chunks/main.js",
-      "static/chunks/pages/customer/detail_customer.js"
-    ],
     "/customer/sign_in": [
       "static/chunks/webpack.js",
       "static/chunks/main.js",
       "static/chunks/pages/customer/sign_in.js"
-    ],
-    "/next/dist/pages/_error": [
-      "static/chunks/webpack.js",
-      "static/chunks/main.js",
-      "static/chunks/pages/next/dist/pages/_error.js"
     ]
   },
   "ampFirstPages": []

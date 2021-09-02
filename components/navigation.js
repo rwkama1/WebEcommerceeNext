@@ -1,11 +1,11 @@
 import React,{ Component } from "react";
 
 import Link from "next/link"
-import APICustomer from "../model/api/customer";
+
 
 export class Navbar extends Component
 {
-     
+
      render()
      {
       
@@ -33,7 +33,7 @@ export class Navbar extends Component
             <li className="nav-item">
             <Link href="/add_product_to_cart/cart">
               <a className="nav-link navbar-link-2 waves-effect">
-                <span className="badge badge-pill red">1</span>
+              {/* <span className="badge red z-depth-1 mr-1"> {this.state.cartart} </span> */}
                 <i className="fas fa-shopping-cart pl-0" />
               </a>
              </Link>

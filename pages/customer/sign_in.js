@@ -31,6 +31,7 @@ export default class Sign_in extends Component
         APICustomer.getInstance().login(username,password).then(login => {
                 if(login.bool===true)
                 {
+                  sessionStorage.setItem('loginuser',login.result._identitycard);
                   Router.push(
                     {
                     pathname:"/customer/detail_customer"

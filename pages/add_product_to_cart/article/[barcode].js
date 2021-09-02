@@ -9,22 +9,97 @@ import APIProductCart from "../../../model/api/product_to_cart";
  class Product_Detail extends Component
 {
 
+  // constructor() {
+  //   super();
+  //   this.state = {
+  //     listarticleorder:[]
+  //   }
+    
+  //   }
+    state = {
+      listarticleorder:[]
+    }
      render()
      {
        return(
     	<> 
-       <HeadComponent>
+       <HeadComponent >
          <this.productdetail></this.productdetail>
        </HeadComponent>
       
         </>  
        )
      }
-     static getInitialProps=async (ctx)=>{
-         const getart=await  APIProductCart.getInstance().getArticle(ctx.query.barcode);
-         return { article: getart }
+     validationQuantity=(number)=>
+     {
+       
+       if(!Number.isInteger(number))
+       {
+         
+         throw new Error("Please enter a number");
+        
        }
-     productdetail=()=>
+      if(number<=0)
+       {
+      
+         throw new Error("The quantity must be greater than 0");
+       
+       }
+     
+       
+     }
+      static getInitialProps=async (ctx)=>{
+         const getart=await  APIProductCart.getInstance().getArticle(ctx.query.barcode);
+        
+         return { article: getart }
+      }
+      startOrder=async()=>
+      {
+        
+      const startorder=await APIProductCart.getInstance().startOrder();
+      console.log(startorder)
+      alert(startorder);
+      }
+     
+      registerItemOnOrder=async()=>
+      {
+        try
+        {
+        let quantity=prompt("Enter the amount");
+        if(quantity===null)
+        {
+          return;
+        }
+        let qtynumber=Number(quantity);
+        this.validationQuantity(qtynumber);
+        const registeritemorderr=await APIProductCart.getInstance().registeritemorder(this.props.article._barcode,qtynumber);
+        console.log(registeritemorderr);
+        alert(registeritemorderr);
+        // let cartlist=[];
+        // cartlist.push(registeritemorderr);
+        // sessionStorage.setItem('cart',JSON.stringify(cartlist));
+        // const articlescard= this.state.listarticleorder;
+        // articlescard.push(registeritemorderr)
+        // this.setState(
+        //   {
+        //     listarticleorder:articlescard
+        //   }
+
+        // )
+        // console.log(this.state.listarticleorder)
+         
+         
+        }
+        catch(e)
+        {
+          alert(e.message)
+        }
+      
+        
+    
+       
+      }
+       productdetail=()=>
      {
        return(
          <>
@@ -60,11 +135,10 @@ import APIProductCart from "../../../model/api/product_to_cart";
             </div>
             <hr />
   
-            <button type="button" className="btn btn-light-blue btn-md mr-1 mb-2">Start Order</button>
-            <button     className="btn btn-light btn-md mr-1 mb-2"><i className="fas fa-shopping-cart pr-2" />Add to cart</button>
+            <button type="button" onClick={this.startOrder} className="btn btn-light btn-md mr-1 mb-2">Start New Order</button>
+            <button type="button"  onClick={this.registerItemOnOrder}  className="btn btn-primary btn-md mr-1 mb-2"><i className="fas fa-shopping-cart pr-2" />Add to cart</button>
 
-            <div className="modal fade" id="modal_quantity" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-            </div>
+           
           </div>
         </div>
        

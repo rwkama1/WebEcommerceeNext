@@ -107,7 +107,7 @@ export default class APICustomer
             const error=await response.text();
             return {error,bool};
             }
-            const result=await response.data;
+            const result=await response.json();
             return {result,bool}; 
         }
         getUserLogin=async()=>
@@ -132,6 +132,25 @@ export default class APICustomer
          {
            return e.message;
          }
+        }
+        getUser=async(idcard)=>
+        {
+          try
+          {
+          const url2=this.url+"user/user?pidcard="+idcard;
+           var requestOptions = {
+              method: 'GET',
+              redirect: 'follow'
+            };
+           const response =await fetch(url2, requestOptions);
+           const result=await response.json();
+           return result;
+          }
+           catch(e)
+          {
+            return e.message;
+          }
+          
         }
    
 }

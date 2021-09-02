@@ -52,8 +52,7 @@ export default class APIHome
           const result=await response.data;
           return result;
         
-      }     
-    
+      }        
       filterArticlebyCategory=async(name)=>
       {
        

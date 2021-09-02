@@ -20,19 +20,23 @@ export default class Detail_Customer extends Component
   componentDidMount()
  {
 
-    APICustomer.getInstance().getUserLogin().then(getloginuser => {
-    if(getloginuser===null)
+    var loginuser = sessionStorage.getItem('loginuser');
+    if(!loginuser)
     {
-     
+      alert("Please log in to access this page");
+      
       Router.push(
         {
-        pathname:"/"
+          pathname:"/customer/sign_in"
       }
       )
-      alert("User no login");
       return;
+     
     }
     else{
+    APICustomer.getInstance().getUser(loginuser).then(getloginuser => {
+   
+  
       this.setState(
         {
          idcard:getloginuser._identitycard,
@@ -44,9 +48,9 @@ export default class Detail_Customer extends Component
         }
       )
       }
-    }
+    
    );
- 
+  }
    
  }
  updateCustomer=(event)=>
