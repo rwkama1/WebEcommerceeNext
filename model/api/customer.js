@@ -152,5 +152,23 @@ export default class APICustomer
           }
           
         }
+        getcustomerorders=async(idcard)=>
+      {
+        const url2=this.url+"order/get/getclientorders?pidcard="+idcard;
+        var requestOptions = {
+          method: 'POST',
+          redirect: 'follow'
+        };
+        const response=await fetch(url2, requestOptions)
+        if(response.ok)
+        {
+        const result=await response.json();
+        return result;
+        }
+        else{
+          const error=await response.text();
+          return error
+        }
+      }
    
 }

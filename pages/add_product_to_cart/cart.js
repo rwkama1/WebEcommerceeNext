@@ -8,6 +8,9 @@ export default class Cart extends Component
   constructor() {
     super();
     this.state = {
+      total:0,
+      stringtotal:"",
+      disabled:true,
       ordercart:{},
       listdetailorder:[]
     }
@@ -19,19 +22,19 @@ export default class Cart extends Component
   try{
 
   
-    // var loginuser = sessionStorage.getItem('loginuser');
-    // if(!loginuser)
-    // {
-    //   alert("Please log in to access this page");
+    var loginuser = sessionStorage.getItem('loginuser');
+    if(!loginuser)
+    {
+      alert("Please log in to access this page");
       
-    //   Router.push(
-    //     {
-    //     pathname:"/customer/sign_in"
-    //   }
-    //   )
-    //   return;
+      Router.push(
+        {
+        pathname:"/customer/sign_in"
+      }
+      )
+      return;
      
-    // }
+    }
     const orderdetail=await APIProductCart.getInstance().getorderinprogress();
    
     this.setState(
@@ -69,6 +72,55 @@ export default class Cart extends Component
   console.log(removeitemonor);
   alert(removeitemonor);
    }
+   catch(e)
+   {
+     alert(e.message);
+   }
+ }
+ closeorder=async()=>
+ {
+  try
+  {
+    
+    const closeOrder=await APIProductCart.getInstance().closeOrder();
+    this.setState(
+      {
+        total:closeOrder._total,
+        stringtotal:"Total",
+        disabled:false
+      }
+    )
+    console.log(closeOrder)
+  
+   }
+   catch(e)
+   {
+     alert(e.message);
+   }
+ }
+ sendorder=async()=>
+ {
+  try
+  {
+    var msj = confirm("Are you sure to submit this order for an admin to review?");
+    if(msj===true)
+    {
+     let loginuser = sessionStorage.getItem('loginuser');
+    const saveorder=await APIProductCart.getInstance().saveorder(loginuser);
+    this.setState(
+      {
+        listdetailorder:[]
+      }
+    )
+    console.log(saveorder);
+    alert(saveorder)
+    }
+    else
+    {
+      return;
+    }
+   }
+  
    catch(e)
    {
      alert(e.message);
@@ -164,12 +216,12 @@ export default class Cart extends Component
                   <td colSpan={3} />
                   <td>
                     <h4 className="mt-2">
-                      <strong>Total</strong>
+                      <strong>{this.state.stringtotal}</strong>
                     </h4>
                   </td>
                   <td className="text-right">
                     <h4 className="mt-2">
-                      <strong>$2600</strong>
+                      <strong>${this.state.total}</strong>
                     </h4>
                   </td>
                 </tr>
@@ -193,10 +245,10 @@ export default class Cart extends Component
           <div className="row">
            
           
-            <button type="button" className="btn btn-light">
-                Close Order
+            <button type="button" onClick={this.closeorder} className="btn btn-light">
+               Calculate Total
               </button>
-              <button type="button" disabled={true} className="btn btn-primary">
+              <button type="button" onClick={this.sendorder} disabled={this.state.disabled} className="btn btn-primary">
                 Send Order
               </button>
          

@@ -2,6 +2,7 @@ import React,{ Component } from "react";
 import { HeadComponent } from "../../components/head";
 import APICustomer from "../../model/api/customer";
 import Router from "next/router";
+import APIProductCart from "../../model/api/product_to_cart";
 export default class Detail_Customer extends Component
 {
 
@@ -13,11 +14,11 @@ export default class Detail_Customer extends Component
     username:"",
     completename:"",
     creditcard:"",
-    address:""
-
+    address:"",
+    orders:[],
    }
  }
-  componentDidMount()
+  async componentDidMount()
  {
 
     var loginuser = sessionStorage.getItem('loginuser');
@@ -34,7 +35,7 @@ export default class Detail_Customer extends Component
      
     }
     else{
-    APICustomer.getInstance().getUser(loginuser).then(getloginuser => {
+   let getloginuser=await  APICustomer.getInstance().getUser(loginuser);
    
   
       this.setState(
@@ -47,10 +48,7 @@ export default class Detail_Customer extends Component
          address:getloginuser._shippingaddress
         }
       )
-      }
-    
-   );
-  }
+   }
    
  }
  updateCustomer=(event)=>
@@ -74,8 +72,67 @@ export default class Detail_Customer extends Component
 
 
 }
-
-     render()
+personalorder=async(idorder,statee)=>
+{
+  try
+  {
+    if(statee==="Pending")
+    {
+      var msj = confirm("Are you sure to delete that order?");
+      if(msj===true)
+      {
+        const porder=await APIProductCart.getInstance().personalorder(idorder);
+        console.log(porder);
+        alert(porder);
+      }
+      else{
+        return;
+      }
+    }
+    if(statee==="Delivered")
+    {
+      var msj = confirm("Are you sure to duplicate that order?");
+      if(msj===true)
+      {
+        const porder=await APIProductCart.getInstance().personalorder(idorder);
+        console.log(porder);
+        alert(porder);
+      }
+      else{
+        return;
+      }
+    }
+    // const porder=await APIProductCart.getInstance().personalorder(idorder);
+    // console.log(porder);
+    // alert(porder)
+  
+   }
+   catch(e)
+   {
+     alert(e.message);
+   }
+ 
+}
+listorders=async()=>
+{
+  let loginuser = sessionStorage.getItem('loginuser');
+ let listorders= await APICustomer.getInstance().getcustomerorders(loginuser);
+   if(listorders.length===0)
+   {
+     alert("No order was found");
+   }
+   else
+   {
+     this.setState(
+       {
+         orders:listorders
+       }
+     )
+    console.log(listorders);
+   }
+  
+}
+render()
      {
        return(
     	<>
@@ -185,54 +242,62 @@ export default class Detail_Customer extends Component
 
      <div className="text-center pb-2">
         <input type="submit" className="btn btn-primary mb-4" value="Update Data"/>
-
+        <button type="button" onClick={this.listorders} className="btn btn-primary mb-4">List Orders</button>
      </div>
    </form>
    </div>
-          </section>
-
-              {/*Section: Content*/}
+    </section>
+            {/*Section: Content*/}
+     </div>
+    
+          {
+       
+            <div className="col-md-6">
+            <section>
+           <table  className="table table-borderless" width="100%">
+             <thead >
+               <tr>
+                 <th className="th-sm"> <strong>Date</strong>
+                 </th>
+                 <th className="th-sm"> <strong>Quantity Articles</strong>
+                 </th>
+                 <th className="th-sm"> <strong>Total</strong>
+                 </th>
+                 <th className="th-sm"> <strong>State</strong>
+                 </th>
+                 <th className="th-sm">
+                 </th>
+               </tr>
+             </thead>
+             <tbody>
+             {
+             this.state.orders.map(
+             (ord,i)=>{
+             return(
+               <tr key={i}>
+                 <td>{ord._date}</td>
+                 <td>{ord._listOrderDetails.length}</td>
+                 <td>${ord._total}</td>
+                 <td>{ord._state}</td>
+                 <td>
+     
+                 <button type="button" onClick={() => this.personalorder(ord._id,ord._state)}  className="btn btn-light btn-sm">Select</button>
+     
+                 </td>
+               </tr>
+             )
+             }
+             )
+            }
+              </tbody>
+     
+         </table>
+     
+           </section>
+     
             </div>
-
-      <div className="col-md-6">
-       <section>
-      <table  className="table table-borderless" width="100%">
-        <thead >
-          <tr>
-            <th className="th-sm"> <strong>Date</strong>
-            </th>
-            <th className="th-sm"> <strong>Quantity Articles</strong>
-            </th>
-            <th className="th-sm"> <strong>Total</strong>
-            </th>
-            <th className="th-sm"> <strong>State</strong>
-            </th>
-            <th className="th-sm">
-            </th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>Tiger Nixon</td>
-            <td>System Architect</td>
-            <td>Edinburgh</td>
-            <td>Edinburgh</td>
-            <td>
-
-            <button type="button" className="btn btn-light btn-sm">Select</button>
-
-            </td>
-          </tr>
-
-         </tbody>
-
-    </table>
-
-      </section>
-
-            </div>
-
-
+          }
+           )
           </div>
 
         </div>

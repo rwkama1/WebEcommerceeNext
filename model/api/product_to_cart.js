@@ -102,6 +102,7 @@ export default class APIProductCart
         }
       }
       closeOrder=async()=>
+      
       {
         const url2=this.url+"order/post/closeorder";
         var requestOptions = {
@@ -152,4 +153,35 @@ export default class APIProductCart
       }
         
       }
+      saveorder=async(idcard)=>
+      {
+        const url2=this.url+"order/post/saveorder?pidcard="+idcard;
+        var requestOptions = {
+          method: 'POST',
+          redirect: 'follow'
+        };
+        
+        const response=await fetch(url2, requestOptions)
+        const result=await response.text();
+        return result;
+      }
+      personalorder=async(idorder)=>
+      {
+        const url2=this.url+"order/post/personalorder?pid="+idorder;
+        var requestOptions = {
+          method: 'POST',
+          redirect: 'follow'
+        };
+        const response=await fetch(url2, requestOptions)
+        if(response.ok)
+        {
+        const result=await response.text();
+        return result;
+        }
+        else{
+          const error=await response.text();
+          return error
+        }
+      }
+      
 }  

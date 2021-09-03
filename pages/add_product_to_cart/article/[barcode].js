@@ -56,9 +56,19 @@ import APIProductCart from "../../../model/api/product_to_cart";
       startOrder=async()=>
       {
         
-      const startorder=await APIProductCart.getInstance().startOrder();
-      console.log(startorder)
-      alert(startorder);
+    
+      var msj = confirm("The following action will delete the current order to create a new one. Do you want to start a new order?");
+      if(msj===true)
+      {
+        const startorder=await APIProductCart.getInstance().startOrder();
+        console.log(startorder)
+        alert(startorder);
+      }
+      else
+      {
+        return;
+      }
+     
       }
      
       registerItemOnOrder=async()=>
