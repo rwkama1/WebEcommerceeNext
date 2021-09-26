@@ -28,7 +28,8 @@ export  class HeadComponent extends Component
 <link rel="stylesheet" href="https://mdbootstrap.com/previews/ecommerce-demo/css/mdb.ecommerce.min.css"/>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700&display=swap"/>
 {/* <!-- Font awesome 5 --> */}
-
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7779192336608203"
+     crossorigin="anonymous"></script>
 {/* <link href="//netdna.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.css" rel="stylesheet"/> */}
 
 {/* <!-- plugin: fancybox  --> */}
